@@ -107,6 +107,8 @@ def train():
         fps = all_f[:][5][0]
 
         print(n,batch_idx, video_info)
+        print("initaial train w_vec", w_vec.shape) # 64, 1, 4800
+        print("initial train v_vec", v_vec.shape) # 2048
         start_f=(int(w_start*fps.data)-int(video_info.split('-')[1]))/int(video_info.split('-')[2])
         end_f=(int(w_end*fps.data)-int(video_info.split('-')[1]))/int(video_info.split('-')[2])
         IOU_recode = list()
