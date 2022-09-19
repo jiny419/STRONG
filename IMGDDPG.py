@@ -94,6 +94,7 @@ def image_state_one(path,video_info,w_vec,location):
     spp_state_all=list()
     old=0
     spp_state_old=None
+    w_emb = nn.Linear(4800, 2048).cuda()
     for i in range(start,end):
         img_path=path+str(i)+'.jpg'
         spp = spp.SppNet(w_vec, l_v_vec)
@@ -101,6 +102,12 @@ def image_state_one(path,video_info,w_vec,location):
         spp_state_all.append(th.squeeze(spp_state).cpu().numpy())
 
     feature_all = th.tensor(np.squeeze(np.array(spp_state_all).mean(axis=0))).cuda()
+    w_vec_emb = w_emb(w_vec)
+    print('feat_all', feature_all.shape) # 2048
+    print(th.squeeze(feature_all).shape) # 2048
+    print('w_vec', w_vec.shape) # 64, 4800
+    print('l_v_vec', l_v_vec.shape) # 2048
+    print("w_vec_emb", w_vec_emb.shape) # 64, 2048
     spp_state_train=th.unsqueeze(th.cat((th.squeeze(feature_all),w_vec,l_v_vec),0),0)
     action = ddpg_image.select_action(spp_state_train).data.cpu()
 
