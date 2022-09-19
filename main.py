@@ -23,6 +23,8 @@ log_path='./log_RL_all'
 
 def init_state(path,video_info,w_vec,globle_vec):
     #Initialization L is [0.25, 0.75]
+    # w_vec 64, 4800
+    # v_vec == globle_vec 2048
     location=th.tensor([0.25,0.75])
     patha=path+video_info
     start=int(int(video_info.split('-')[2])*0.25)
